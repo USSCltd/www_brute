@@ -1,0 +1,28 @@
+<html>
+<head>
+<style>
+	body { background-color: #eeeeee; }
+	textarea { height: 150px; border-radius: 5px; }
+	a { color: #0000FF; text-decoration: none; }
+	img { cursor: pointer; }
+	button { border-radius: 5px; }
+</style>
+<script src="wordlist_loader.js"></script>
+</head>
+<body>
+<table>
+<thead><tr><td>users</td><td>passwords</td><td>user:password</td></tr></thead>
+<tbody id="wordlists">
+</tbody>
+<tfoot>
+<tr>
+<td><textarea id="users"></textarea></td>
+<td><textarea id="passwords"></textarea></td>
+<td><textarea id="combo"></textarea></td>
+</tr>
+</tfoot>
+</table>
+<button id="add">add</button>
+<button id="ok">ok</button>
+</body>
+</html>
