@@ -1,4 +1,4 @@
-VERSION = '1.20'
+VERSION = '1.21'
 
 
 function bruteforce_exception(mess)
