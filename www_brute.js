@@ -88,6 +88,7 @@ var Brute = function()
 	this.submit_field
 	this.interval = 0
 	this.creds = {}
+	this.is_running = false
 	this.is_setting_done = true
 
 	this.set_creds = function(user,password)
@@ -235,7 +236,11 @@ var Brute = function()
 			)
 		}
 
-		wait_target(this)
+		if(! this.is_running)
+		{
+			this.is_running = true
+			wait_target(this)
+		}
 	}
 
 	this.attack = function()
