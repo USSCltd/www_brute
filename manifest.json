@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "www_brute",
     "description": "WWW bruteforce login forms",
-    "version": "1.0.1",
+    "version": "1.0.2",
  
     "icons": {
         "16": "img/icon.png",

