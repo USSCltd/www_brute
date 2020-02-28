@@ -1,4 +1,4 @@
-VERSION = "1.00"
+VERSION = "1.02"
 
 var current_tab_id
 
@@ -303,9 +303,11 @@ var content_handlers = {
     },
     put_founded: function(tabid, data)
     {
-        var target
+        var target, audio = new Audio('sounds/complete.mp3')
         if( ( target = window.targets.find(data.host) ) != null )
             target.founded.push( data.founded )
+        audio.loop = false
+        audio.play()
     },
     wait_target: function(tabid)
     {
@@ -387,6 +389,7 @@ var set_offset = function(host, offset)
     var target = targets.find(host)
     if(! target)
         return
+    target.founded = []
     offset = parseInt(offset)
     if(! isNaN(offset) )
         target.settings.dictionary.offset = offset
@@ -398,6 +401,7 @@ var start_brute = function(host)
     if(! target)
         return
     target.status.is_attack = true
+    target.founded = []     /* for continuation of bruteforce */
     for(var i = 0; i < target.tabs.length; i++)
         content_page_send_message( target.tabs[i].id, { method: 'start_brute', data: '' } )
 }

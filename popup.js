@@ -1,4 +1,4 @@
-VERSION = "1.00"
+VERSION = "1.01"
 
 bg = chrome.extension.getBackgroundPage()
 HTMLCollection.prototype.forEach = Array.prototype.forEach
@@ -40,7 +40,7 @@ var Row = function(domain)
 
     this.set_sec = function()
     {
-        if(this.sec)
+        if(this.sec != null)
         {
             if( ! this.element.children[1].children.length || this.element.children[1].children[0].getAttribute('value') != this.sec )
                 this.element.children[1].innerHTML = '<input action="set_interval" host="' + this.domain + '" value="' + this.sec + '">'
@@ -161,7 +161,6 @@ var Row = function(domain)
             this.element.children.forEach( function(td) { td.style.backgroundColor = '' } )
         if(this.is_founded)
             this.element.children.forEach( function(td) { td.style.backgroundColor = 'green' } )
-        
         this.update_handlers()
     }
 }

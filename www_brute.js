@@ -1,4 +1,4 @@
-VERSION = '1.22'
+VERSION = '1.24'
 
 
 function bruteforce_exception(mess)
@@ -205,16 +205,13 @@ var Brute = function()
 							that.is_waiting = false
 							return
 						}
-						if(! target.status.is_attack && ! target.status.is_found)
+						if(! target.status.is_attack)
 						{
 							setTimeout(wait_target, 1000, that)
 							return
 						}
-						if(! target.status.is_found)
-							//wait_for(password_field_element, that)
-							setTimeout( function() { get_creds(that) }, that.interval )
-						else
-							that.is_waiting = false
+						setTimeout( function() { get_creds(that) }, that.interval )
+
 					}
 					else
 						that.is_waiting = false
